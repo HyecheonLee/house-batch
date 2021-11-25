@@ -1,0 +1,42 @@
+spring:
+  profiles:
+    active: local
+  batch:
+    job:
+      names: ${job.name:NONE}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:mariadb://127.0.0.1:3306/house
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: house
+    password: house
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+  batch:
+    jdbc:
+      initialize-schema: always
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      tracing:
+        include-parameter-values: true
+      logging: slf4j
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    database: h2
