@@ -6,6 +6,8 @@ plugins {
 	kotlin("jvm") version "1.6.0"
 	kotlin("plugin.spring") version "1.6.0"
 	kotlin("plugin.jpa") version "1.6.0"
+
+	kotlin("kapt") version "1.6.0"
 }
 
 group = "com.hyecheon"
@@ -36,6 +38,9 @@ dependencies {
 
 	/*p6spy*/
 	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1")
+
+	implementation("org.mapstruct:mapstruct:1.5.0.Beta1")
+	kapt("org.mapstruct:mapstruct-processor:1.5.0.Beta1")
 }
 
 tasks.withType<KotlinCompile> {

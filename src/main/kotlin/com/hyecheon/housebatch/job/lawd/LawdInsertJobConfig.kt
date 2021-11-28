@@ -1,6 +1,7 @@
 package com.hyecheon.housebatch.job.lawd
 
 import com.hyecheon.housebatch.core.entity.Lawd
+import com.hyecheon.housebatch.core.service.LawdService
 import com.hyecheon.housebatch.job.Constant
 import com.hyecheon.housebatch.job.validator.FilePathParameterValidator
 import org.slf4j.LoggerFactory
@@ -23,7 +24,8 @@ import org.springframework.core.io.ClassPathResource
 @Configuration
 class LawdInsertJobConfig(
 	private val jobBuilderFactory: JobBuilderFactory,
-	private val stepBuilderFactory: StepBuilderFactory
+	private val stepBuilderFactory: StepBuilderFactory,
+	private val lawdService: LawdService
 ) {
 	private val log = LoggerFactory.getLogger(this::class.java)
 
@@ -63,8 +65,6 @@ class LawdInsertJobConfig(
 	@Bean
 	@StepScope
 	fun lawdItemWriter() = run {
-		ItemWriter<Lawd> { items ->
-			items.forEach(::println)
-		}
+		ItemWriter<Lawd> { lawdService.save(it) }
 	}
 }

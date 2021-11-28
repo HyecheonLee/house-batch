@@ -1,5 +1,7 @@
 package com.hyecheon.housebatch.core.entity
 
+import com.hyecheon.housebatch.core.converter.LawdConverter
+import org.mapstruct.factory.Mappers
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDateTime
@@ -16,7 +18,7 @@ data class Lawd(
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	val lawdId: Long? = null,
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	var lawdCd: String? = null,
 
 	@Column(nullable = false)
@@ -31,4 +33,9 @@ data class Lawd(
 
 	@LastModifiedDate
 	val updatedAt: LocalDateTime = LocalDateTime.now()
-)
+) {
+	fun update(source: Lawd) = run {
+		val converter = Mappers.getMapper(LawdConverter::class.java)
+		converter.update(source, this)
+	}
+}

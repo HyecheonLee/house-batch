@@ -4,6 +4,9 @@ spring:
   batch:
     job:
       names: ${job.name:NONE}
+logging:
+  file:
+    path: logs/
 
 ---
 spring:
@@ -19,7 +22,7 @@ spring:
     show-sql: true
     generate-ddl: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
@@ -30,7 +33,7 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
-      log-file: log/spy.sql
+      log-file: logs/spy.sql
 ---
 spring:
   config:
