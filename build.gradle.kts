@@ -41,6 +41,11 @@ dependencies {
 
 	implementation("org.mapstruct:mapstruct:1.5.0.Beta1")
 	kapt("org.mapstruct:mapstruct-processor:1.5.0.Beta1")
+
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+	implementation("javax.xml.bind:jaxb-api")
+	implementation("org.springframework:spring-oxm")
+	runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
 }
 
 tasks.withType<KotlinCompile> {
