@@ -30,9 +30,7 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
-      tracing:
-        include-parameter-values: true
-      logging: slf4j
+      log-file: log/spy.sql
 ---
 spring:
   config:
