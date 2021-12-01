@@ -7,7 +7,10 @@ spring:
 logging:
   file:
     path: logs/
-
+external:
+  apartment-api:
+    path: http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade
+    service-key:
 ---
 spring:
   config:

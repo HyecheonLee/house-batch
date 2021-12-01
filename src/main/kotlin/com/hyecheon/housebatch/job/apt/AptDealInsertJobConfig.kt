@@ -1,8 +1,7 @@
 package com.hyecheon.housebatch.job.apt
 
+import com.hyecheon.housebatch.adapter.ApartmentApiResource
 import com.hyecheon.housebatch.core.dto.AptDealDto
-import com.hyecheon.housebatch.job.Constant
-import com.hyecheon.housebatch.job.validator.FilePathParameterValidator
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.JobScope
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
@@ -10,11 +9,10 @@ import org.springframework.batch.core.configuration.annotation.StepScope
 import org.springframework.batch.core.launch.support.RunIdIncrementer
 import org.springframework.batch.item.ItemWriter
 import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.io.ClassPathResource
 import org.springframework.oxm.jaxb.Jaxb2Marshaller
+import java.time.YearMonth
 
 
 /**
@@ -25,7 +23,8 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller
 @Configuration
 class AptDealInsertJobConfig(
 	private val jobBuilderFactory: JobBuilderFactory,
-	private val stepBuilderFactory: StepBuilderFactory
+	private val stepBuilderFactory: StepBuilderFactory,
+	private val apartmentApiResource: ApartmentApiResource
 ) {
 
 	@Bean
@@ -33,7 +32,6 @@ class AptDealInsertJobConfig(
 		jobBuilderFactory.get("aptDealInsertJob")
 			.incrementer(RunIdIncrementer())
 			.start(aptDealInsertStep())
-			.validator(FilePathParameterValidator())
 			.build()
 	}
 
@@ -49,9 +47,9 @@ class AptDealInsertJobConfig(
 
 	@StepScope
 	@Bean
-	fun aptDealResourceReader(@Value("#{jobParameters['${Constant.FilePath}']}") filePath: String = "") = run {
+	fun aptDealResourceReader() = run {
 		StaxEventItemReaderBuilder<AptDealDto>().name("aptDealResourceReader")
-			.resource(ClassPathResource(filePath))
+			.resource(apartmentApiResource.getResource("41135", YearMonth.of(2021, 7)))
 			.addFragmentRootElements("item")
 			.unmarshaller(aptDealDtoMarshaller())
 			.build()

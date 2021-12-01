@@ -46,6 +46,8 @@ dependencies {
 	implementation("javax.xml.bind:jaxb-api")
 	implementation("org.springframework:spring-oxm")
 	runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
+
+	implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
 }
 
 tasks.withType<KotlinCompile> {
