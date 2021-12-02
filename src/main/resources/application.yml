@@ -17,7 +17,7 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:mariadb://127.0.0.1:3306/house
+    url: jdbc:mariadb://127.0.0.1:3306/house?rewriteBatchedStatements=true
     driver-class-name: org.mariadb.jdbc.Driver
     username: house
     password: house
