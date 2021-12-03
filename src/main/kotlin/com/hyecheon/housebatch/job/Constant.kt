@@ -8,6 +8,7 @@ package com.hyecheon.housebatch.job
 object Constant {
 	const val FilePath = "filePath"
 	const val LawdCd = "lawdCd"
+	const val guLawdCd = "gulawdCd"
 	const val LawdDong = "lawdDong"
 	const val Exist = "exist"
 	const val ExitsTrueValue = "존재"

@@ -42,5 +42,24 @@ spring:
   config:
     activate:
       on-profile: test
+  datasource:
+    url: jdbc:mariadb://127.0.0.1:3306/house?rewriteBatchedStatements=true
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: house
+    password: house
   jpa:
-    database: h2
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+  batch:
+    jdbc:
+      initialize-schema: always
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      log-file: logs/spy.sql

@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.PreparedStatement
+import kotlin.streams.toList
 
 
 /**
@@ -58,4 +59,13 @@ class LawdService(
 			})
 	}
 
+	fun guLawdCd() = run {
+		lawdRepository.streamAllByExist(true)
+			.filter { (it.lawdDong?.split(" ")?.size ?: 1) >= 2 }
+			.map { it.lawdCd?.substring(0, 5) }
+			.filter { it != null }
+			.distinct()
+			.toList()
+			.filterNotNull()
+	}
 }

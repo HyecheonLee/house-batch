@@ -19,7 +19,7 @@ class YearMonthParameterValidator : JobParametersValidator {
 		try {
 			YearMonth.parse(yearMonth)
 		} catch (e: DateTimeParseException) {
-			throw JobParametersInvalidException("${yearMonth}은 잘못된 포멧입니다.")
+			throw JobParametersInvalidException("${yearMonth}은 잘못된 포멧입니다. yyyy-MM 형식이어야 합니다.")
 		}
 	}
 }
