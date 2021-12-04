@@ -5,23 +5,19 @@ import com.hyecheon.housebatch.core.dto.AptDealDto
 import com.hyecheon.housebatch.core.service.LawdService
 import com.hyecheon.housebatch.job.Constant
 import com.hyecheon.housebatch.job.validator.YearMonthParameterValidator
-import org.springframework.batch.core.ExitStatus
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.JobScope
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepScope
 import org.springframework.batch.core.job.CompositeJobParametersValidator
 import org.springframework.batch.core.launch.support.RunIdIncrementer
-import org.springframework.batch.core.step.tasklet.Tasklet
 import org.springframework.batch.item.ItemWriter
 import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder
-import org.springframework.batch.repeat.RepeatStatus
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.oxm.jaxb.Jaxb2Marshaller
 import java.time.YearMonth
-import java.util.*
 
 
 /**
@@ -34,7 +30,6 @@ class AptDealInsertJobConfig(
 	private val jobBuilderFactory: JobBuilderFactory,
 	private val stepBuilderFactory: StepBuilderFactory,
 	private val apartmentApiResource: ApartmentApiResource,
-	private val lawdService: LawdService
 ) {
 
 	@Bean
@@ -66,25 +61,8 @@ class AptDealInsertJobConfig(
 
 	@StepScope
 	@Bean
-	fun guLawdCdTasklet() = run {
-		Tasklet { contribution, chunkContext ->
-			val stepExecution = chunkContext.stepContext.stepExecution
-			val executionContext = stepExecution.jobExecution.executionContext
-
-			if (!executionContext.containsKey("guLawdCds")) {
-				executionContext.put("guLawdCds", LinkedList(lawdService.guLawdCd()))
-			}
-
-			val queue: Queue<String> = executionContext.get("guLawdCds")!! as Queue<String>
-
-			if (queue.isEmpty()) contribution.exitStatus = ExitStatus.COMPLETED
-			else {
-				executionContext.putString(Constant.guLawdCd, queue.poll())
-				contribution.exitStatus = ExitStatus("CONTINUABLE")
-			}
-
-			RepeatStatus.FINISHED
-		}
+	fun guLawdCdTasklet(lawdService: LawdService? = null) = run {
+		GuLawdTasklet(lawdService!!)
 	}
 
 	@JobScope
@@ -101,7 +79,7 @@ class AptDealInsertJobConfig(
 	@Bean
 	fun aptDealResourceReader(
 		@Value("#{jobExecutionContext['${Constant.guLawdCd}']}") lawdCd: String? = null,
-		@Value("#{jobParameters['yearMonth']}") yearMonth: String? = null,
+		@Value("#{jobParameters['yearMonth']}") yearMonth: String? = null
 	) = run {
 		StaxEventItemReaderBuilder<AptDealDto>().name("aptDealResourceReader")
 			.resource(apartmentApiResource.getResource(lawdCd!!, YearMonth.parse(yearMonth)))

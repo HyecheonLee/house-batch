@@ -48,6 +48,9 @@ dependencies {
 	runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
 
 	implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
+	// https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC")
+
 }
 
 tasks.withType<KotlinCompile> {
