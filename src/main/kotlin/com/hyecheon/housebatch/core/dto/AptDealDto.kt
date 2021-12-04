@@ -1,5 +1,7 @@
 package com.hyecheon.housebatch.core.dto
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.xml.bind.annotation.XmlElement
 import javax.xml.bind.annotation.XmlRootElement
 
@@ -11,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement
 @XmlRootElement(name = "item")
 data class AptDealDto(
 	@field:XmlElement(name = "거래금액")
-	val dealAmount: String? = null,
+	val _dealAmount: String? = null,
 
 	@field:XmlElement(name = "건축년도")
 	val builtYear: Int? = null,
@@ -44,8 +46,28 @@ data class AptDealDto(
 	val floor: Int? = null,
 
 	@field:XmlElement(name = "해제사유발생일")
-	val dealCanceledDate: String? = null,
+	val _dealCanceledDate: String? = null,
 
 	@field:XmlElement(name = "해제여부")
-	val dealCanceled: String? = null,
-)
+	val _dealCanceled: String? = null,
+) {
+	val dealAmount: Long?
+		get() = run {
+			_dealAmount?.replace(",", "")?.let {
+				it.trim().toLong()
+			}
+		}
+
+	val dealCanceled: Boolean
+		get() = _dealCanceled == "O"
+	val dealCanceledDate: LocalDate?
+		get() = if (_dealCanceledDate.isNullOrBlank()) null else LocalDate.parse(
+			_dealCanceledDate.trim(),
+			DateTimeFormatter.ofPattern("yy.MM.dd")
+		)
+
+
+	fun getDealDate() = run {
+		if (year != null && month != null && day != null) LocalDate.of(year, month, day) else null
+	}
+}

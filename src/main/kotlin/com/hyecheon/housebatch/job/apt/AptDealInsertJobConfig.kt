@@ -2,6 +2,7 @@ package com.hyecheon.housebatch.job.apt
 
 import com.hyecheon.housebatch.adapter.ApartmentApiResource
 import com.hyecheon.housebatch.core.dto.AptDealDto
+import com.hyecheon.housebatch.core.service.AptDealService
 import com.hyecheon.housebatch.core.service.LawdService
 import com.hyecheon.housebatch.job.Constant
 import com.hyecheon.housebatch.job.validator.YearMonthParameterValidator
@@ -30,7 +31,8 @@ class AptDealInsertJobConfig(
 	private val jobBuilderFactory: JobBuilderFactory,
 	private val stepBuilderFactory: StepBuilderFactory,
 	private val apartmentApiResource: ApartmentApiResource,
-) {
+
+	) {
 
 	@Bean
 	fun aptDealInsertJob() = run {
@@ -95,9 +97,9 @@ class AptDealInsertJobConfig(
 
 	@StepScope
 	@Bean
-	fun aptDealWriter() = run {
+	fun aptDealWriter(aptDealService: AptDealService? = null) = run {
 		ItemWriter<AptDealDto> {
-			it.forEach { aptDealDto -> println(aptDealDto) }
+			it.forEach { dto -> aptDealService?.save(dto) }
 		}
 	}
 }
