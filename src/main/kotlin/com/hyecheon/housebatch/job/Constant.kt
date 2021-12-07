@@ -13,5 +13,7 @@ object Constant {
 	const val Exist = "exist"
 	const val ExitsTrueValue = "존재"
 	const val YEAR_MONTH = "yearMonth"
+	const val DealDate = "dealDate"
+
 
 }

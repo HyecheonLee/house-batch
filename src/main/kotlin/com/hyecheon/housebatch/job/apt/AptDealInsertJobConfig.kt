@@ -31,8 +31,7 @@ class AptDealInsertJobConfig(
 	private val jobBuilderFactory: JobBuilderFactory,
 	private val stepBuilderFactory: StepBuilderFactory,
 	private val apartmentApiResource: ApartmentApiResource,
-
-	) {
+) {
 
 	@Bean
 	fun aptDealInsertJob() = run {

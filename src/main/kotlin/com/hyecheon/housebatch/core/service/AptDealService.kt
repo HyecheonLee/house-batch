@@ -1,12 +1,14 @@
 package com.hyecheon.housebatch.core.service
 
 import com.hyecheon.housebatch.core.dto.AptDealDto
+import com.hyecheon.housebatch.core.dto.AptDto
 import com.hyecheon.housebatch.core.entity.Apt
 import com.hyecheon.housebatch.core.entity.AptDeal
 import com.hyecheon.housebatch.core.repository.AptDealRepository
 import com.hyecheon.housebatch.core.repository.AptRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 /**
  * User: hyecheon lee
@@ -43,5 +45,12 @@ class AptDealService(
 	private fun getAptOrNew(dto: AptDealDto) = run {
 		val optionalApt = aptRepository.findByJibunAndAndAptName(dto.jibun, dto.aptName)
 		if (!optionalApt.isPresent) aptRepository.save(Apt.from(dto)) else optionalApt.get()
+	}
+
+	fun findByGuLawdCdAndDealDate(guLawdCd: String, dealDate: LocalDate) = run {
+		aptDealRepository.findAllByGuLawdCdAndDealDate(guLawdCd, dealDate)
+			.map { aptDeal ->
+				AptDto(name = aptDeal.apt?.aptName, aptDeal.dealAmount)
+			}
 	}
 }
