@@ -49,8 +49,9 @@ dependencies {
 
 	implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
 	// https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
+	testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 }
 
 tasks.withType<KotlinCompile> {

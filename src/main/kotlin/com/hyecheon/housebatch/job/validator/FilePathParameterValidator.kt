@@ -17,6 +17,7 @@ class FilePathParameterValidator : JobParametersValidator {
 	override fun validate(parameters: JobParameters?) {
 
 		val filePath = parameters?.getString(FilePath)
+
 		if (filePath.isNullOrBlank()) {
 			throw JobParametersInvalidException("${filePath}가 빈 문자열이거나 존재하지 않습니다.")
 		}
