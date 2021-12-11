@@ -2,6 +2,7 @@ package com.hyecheon.housebatch.adapter
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
 import org.springframework.stereotype.Component
 import java.time.YearMonth
@@ -29,7 +30,7 @@ class ApartmentApiResource(
 
 	private val log = LoggerFactory.getLogger(this::class.java)
 
-	fun getResource(lawdCd: String, yearMonth: YearMonth) = run {
+	fun getResource(lawdCd: String, yearMonth: YearMonth): Resource = run {
 		val url =
 			"$path?serviceKey=$serviceKey&LAWD_CD=$lawdCd&DEAL_YMD=${yearMonth.format(DateTimeFormatter.ofPattern("yyyyMM"))}"
 		log.info("Resource URL = {}", url)

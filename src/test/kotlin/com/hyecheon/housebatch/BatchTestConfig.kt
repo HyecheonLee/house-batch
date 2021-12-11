@@ -1,6 +1,8 @@
 package com.hyecheon.housebatch
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
+import org.springframework.batch.test.JobLauncherTestUtils
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.Configuration
 
@@ -12,4 +14,8 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableBatchProcessing
 @EnableAutoConfiguration
-class BatchTestConfig
+abstract class BatchTestConfig {
+	@Autowired
+	lateinit var jobLauncherTestUtils: JobLauncherTestUtils
+
+}

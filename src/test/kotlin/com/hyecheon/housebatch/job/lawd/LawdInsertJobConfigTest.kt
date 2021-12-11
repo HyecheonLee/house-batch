@@ -15,9 +15,7 @@ import org.springframework.batch.core.ExitStatus
 import org.springframework.batch.core.JobParameter
 import org.springframework.batch.core.JobParameters
 import org.springframework.batch.core.JobParametersInvalidException
-import org.springframework.batch.test.JobLauncherTestUtils
 import org.springframework.batch.test.context.SpringBatchTest
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
@@ -31,11 +29,8 @@ import org.springframework.test.context.ContextConfiguration
 @SpringBatchTest
 @SpringBootTest
 @ActiveProfiles("test")
-@ContextConfiguration(classes = [LawdInsertJobConfig::class, BatchTestConfig::class])
-internal class LawdInsertJobConfigTest {
-
-	@Autowired
-	lateinit var jobLauncherTestUtils: JobLauncherTestUtils
+@ContextConfiguration(classes = [LawdInsertJobConfig::class])
+internal class LawdInsertJobConfigTest : BatchTestConfig() {
 
 	@MockBean
 	lateinit var lawdService: LawdService

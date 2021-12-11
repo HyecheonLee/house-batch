@@ -37,7 +37,7 @@ open class GuLawdTasklet(
 
 	private fun getGuLawdCds(executionContext: ExecutionContext): Queue<String> {
 		if (!executionContext.containsKey(SearchKey)) {
-			executionContext.put(SearchKey, LinkedList(lawdService.guLawdCd().subList(0, 2)))
+			executionContext.put(SearchKey, LinkedList(lawdService.guLawdCd()))
 		}
 		return executionContext.get(SearchKey)!! as Queue<String>
 	}
