@@ -88,8 +88,7 @@ class AptNotificationJobConfig(
 			val aptDtoList =
 				aptDealService.findByGuLawdCdAndDealDate(aptNotification.guLawdCd, LocalDate.parse(dealDate))
 			if (aptDtoList.isEmpty()) return@ItemProcessor null
-			val lawd = lawdRepository.findByLawdCd(aptNotification.guLawdCd + "00000")
-				.orElseThrow()
+			val lawd = lawdRepository.findByLawdCd(aptNotification.guLawdCd + "00000").orElseThrow()
 			NotificationDto(
 				email = aptNotification.email,
 				guName = lawd.lawdDong!!,
